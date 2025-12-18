@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Pragati 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(180deg,#ffd6dc,#f3aab5);
+  overflow:hidden;
+}
+
+/* COUNTDOWN CARD */
+.card{
+  background:#ffd6dc;
+  padding:40px 35px;
+  border-radius:28px;
+  width:90%;
+  max-width:520px;
+  text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,0.18);
+  animation:fadeIn 1.5s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.title{
+  font-size:34px;
+  font-weight:700;
+  color:#fff;
+}
+
+.subtitle{
+  font-size:16px;
+  color:#fff;
+  opacity:.9;
+  margin:12px 0 30px;
+}
+
+.timer{
+  display:flex;
+  justify-content:center;
+  gap:18px;
+}
+
+.box{
+  background:rgba(255,255,255,0.35);
+  width:95px;
+  padding:18px 10px;
+  border-radius:18px;
+}
+
+.time{
+  font-size:30px;
+  font-weight:700;
+  color:#fff;
+}
+
+.label{
+  font-size:13px;
+  color:#fff;
+  opacity:.85;
+  margin-top:6px;
+}
+
+/* VIDEO */
+#videoSection{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:10;
+}
+
+#videoSection video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* CONFETTI */
+.confetti{
+  position:absolute;
+  width:8px;
+  height:14px;
+  top:-10px;
+  animation:fall linear infinite;
+}
+
+@keyframes fall{
+  to{transform:translateY(110vh) rotate(360deg)}
+}
+
+/* MOBILE */
+@media(max-width:480px){
+  .box{width:72px;padding:14px 6px}
+  .time{font-size:24px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- COUNTDOWN -->
+<div class="card" id="countdown">
+  <div class="title">🎉 Birthday Countdown 🎉</div>
+  <div class="subtitle">For Pragati Chouhan 💖</div>
+
+  <div class="timer">
+    <div class="box">
+      <div class="time" id="days">00</div>
+      <div class="label">Days</div>
+    </div>
+    <div class="box">
+      <div class="time" id="hours">00</div>
+      <div class="label">Hours</div>
+    </div>
+    <div class="box">
+      <div class="time" id="minutes">00</div>
+      <div class="label">Minutes</div>
+    </div>
+    <div class="box">
+      <div class="time" id="seconds">00</div>
+      <div class="label">Seconds</div>
+    </div>
+  </div>
+</div>
+
+<!-- VIDEO -->
+<div id="videoSection">
+  <video id="birthdayVideo" autoplay muted controls>
+    <!-- 🔴 PUT YOUR VIDEO FILE HERE -->
+    <source src="birthday-video.mp4" type="video/mp4">
+  </video>
+</div>
+
+<script>
+/* 🎂 BIRTHDAY: 09 JANUARY (AUTO USES UPCOMING YEAR) */
+const now = new Date();
+let year = now.getFullYear();
+let birthday = new Date(year, 0, 9, 0, 0, 0);
+
+if (now > birthday) {
+  birthday = new Date(year + 1, 0, 9, 0, 0, 0);
+}
+
+const target = birthday.getTime();
+
+const d = document.getElementById("days");
+const h = document.getElementById("hours");
+const m = document.getElementById("minutes");
+const s = document.getElementById("seconds");
+
+const countdown = document.getElementById("countdown");
+const videoSection = document.getElementById("videoSection");
+const video = document.getElementById("birthdayVideo");
+
+function update(){
+  const diff = target - Date.now();
+
+  if(diff <= 0){
+    countdown.style.display="none";
+    videoSection.style.display="block";
+    video.muted=false;
+    video.play();
+    confetti();
+    return;
+  }
+
+  d.innerText = Math.floor(diff/(1000*60*60*24));
+  h.innerText = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+  m.innerText = Math.floor((diff%(1000*60*60))/(1000*60));
+  s.innerText = Math.floor((diff%(1000*60))/1000);
+}
+
+setInterval(update,1000);
+update();
+
+/* CONFETTI */
+function confetti(){
+  for(let i=0;i<90;i++){
+    const c=document.createElement("div");
+    c.className="confetti";
+    c.style.left=Math.random()*100+"vw";
+    c.style.animationDuration=(Math.random()*3+2)+"s";
+    c.style.background=["#fff","#ffd700","#ff69b4"][Math.floor(Math.random()*3)];
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),5000);
+  }
+}
+</script>
+
+</body>
+</html>
